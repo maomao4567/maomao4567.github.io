@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    body{
+      background:black;
+    }
+    #canvas {
+        /*border:1px solid red;*/
+        background:hotpink;
+        margin: 0 auto;
+      }
+  </style>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <canvas id='canvas' width="400" height='200'></canvas>
+</body>
+</html>
+<script type="text/javascript">
+    var canvas = document.getElementById('canvas');
+    var cxt = canvas.getContext('2d');
+    var ball = { //小球属性，原点位置，速度，半径等。
+        x: 100,
+        y: 100,
+        vx: 4,
+        vy: 2,
+        radius: 20,
+        color:'greenyellow',
+        draw: function(){
+          cxt.beginPath();
+          cxt.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
+          cxt.closePath();
+          cxt.fillStyle = this.color;
+          cxt.fill();
+        }
+    };
+    function draw(){
+      cxt.fillStyle = 'rgba(255,255,255,0.3)';
+      cxt.clearRect(0, 0, canvas.width, canvas.height);  //绘制之前清除整个画布
+      ball.draw();  //在画布中绘制小球
+      ball.x += ball.vx;  //改变小球位置x坐标
+      ball.y += ball.vy;  //改变小球位置y坐标
+      if(ball.y + ball.vy > canvas.height-15 || ball.y + ball.vy < 15) { //边界判断
+          ball.vy = -ball.vy;
+      }
+      if(ball.x + ball.vx > canvas.width-15 || ball.x + ball.vx < 15) {  //边界判断
+          ball.vx = -ball.vx;
+      }
+      window.requestAnimationFrame(draw);  //循环执行
+    }
+    draw();
+</script>

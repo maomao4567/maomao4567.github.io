@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    body {
+      margin:0px;
+      padding:0px;
+    }
+    #container {
+      background-color:black;
+    }
+  </style>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <!--设置一个大盒子-->
+  <div id="container"></div>
+  <!--导入js包-->
+  <script src="js/kinetic-v5.1.0/kinetic-v5.1.0.min.js"></script>
+  <script defer='defer'>
+    var sw = 578;
+    var sh = 400;
+    var stage = new Kinetic.Stage({
+      container: 'container',
+      // 设置宽和高
+      width:578,
+      height: 400
+    });
+    var layer = new Kinetic.Layer({
+      y: -30
+    });
+
+    //左眼初始时的样式
+    var leftEye = new Kinetic.Line({
+      x: 150,
+      points:[0,200,50,190,100,200,50,210],
+      tension: 0.5,
+      closed: true,
+      stroke: 'white',
+      strokWidth: 20
+    });
+    //右眼初始时的样式
+    var rightEye = new Kinetic.Line({
+      x:sw - 250,
+      points: [0, 200, 50, 190,100, 200,50, 210],
+      tension: 0.5,
+      closed:true,
+      stroke:'white',
+      strokWidth:20
+    });
+    //鼻子初始时的样式
+    var nose = new Kinetic.Line({
+      points: [240,280,sw/2,300,sw-240,280],
+      tension: 0.5,
+      closed: true,
+      stroke: 'white',
+      strokWidth: 10
+    });
+
+    //嘴巴初始时的样式
+    var mouth = new Kinetic.Line({
+      points: [150,340,sw/2,380,sw-150,340,sw/2,sh],
+      tension: 0.5,
+      closed: true,
+      stroke: 'red',
+      strokWidth: 10
+    });
+
+    layer.add(leftEye)
+         .add(rightEye)
+         .add(nose)
+         .add(mouth)
+
+
+    stage.add(layer);
+
+    //tweens
+    //左眼的动画
+    var leftEyeTween = new Kinetic.Tween({
+      node:leftEye,
+      duration: 1,  //duration:持续动画的时间
+      easing: Kinetic.Easings.ElasticEaseOut,  //这一行代码代表的是当所有的动画一起变化时是同时的
+      y:-100, 
+      points: [0, 200, 50,150, 100,200, 50,200] //当鼠标移入的时候眼睛变化的大小
+    });
+
+    //右眼的动画
+    var rightEyeTween = new Kinetic.Tween({
+      node: rightEye,
+      duration: 1,
+      easing: Kinetic.Easings.ElasticEaseOut,
+      y:-100,
+      points: [0,200,50,150,100,200,50,200] //当鼠标移入的时候眼睛变化的大小
+    });
+
+    //鼻子的动画
+    var noseTween = new Kinetic.Tween({
+      node:nose,
+      duration:1,
+      easing: Kinetic.Easings.ElasticEaseOut,
+      y:-100,
+      points: [220,280,sw/2,200,sw-220,280]
+    });
+
+    // 嘴巴的动画
+    var mouthTween = new Kinetic.Tween({
+      node:mouth,
+      duration: 1,
+      easing: Kinetic.Easings.ElasticEaseOut,
+      points: [100, 250, sw/2, 250, sw-100, 250, sw/2, sh-20]
+    });
+
+    stage.getContainer().addEventListener('mouseover',function() {
+      //当鼠标移入的时候眼睛鼻子和嘴巴就会动起来
+      leftEyeTween.play();
+      rightEyeTween.play();
+      noseTween.play();
+      mouthTween.play();
+      tongueTween.play();
+    });
+
+    stage.getContainer().addEventListener('mouseout', function(){  
+      //当鼠标离开时返回原来的样子
+      leftEyeTween.reverse();  
+      rightEyeTween.reverse();
+      noseTween.reverse();
+      mouthTween.reverse();
+    });
+  </script>
+  
+</body>
+</html>
